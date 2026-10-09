@@ -1,0 +1,7 @@
+# Design decisions
+
+1. **Indexes.** A unique `employees.emp_code` index protects the business key. The unique `(emp_code, date)` attendance index both enforces one daily record and serves employee/month queries. Attendance indexes on `(date desc, emp_code)` support listing, and `(emp_code, punch_in desc)` finds the latest punch-in. Employee department/code and department/joined-date indexes serve employee listing, headcount, and department lookups; joined-date/department supports summaries without a department filter. I considered a standalone `late_minutes` index and rejected it: monthly date ranges are the selective predicate, and the pipeline groups lateness.
+2. **Punch-in race.** Both requests may pass the employee lookup, but the unique attendance index allows only one insert for that `(emp_code, date)`. MongoDB rejects the other insert; the handler translates its duplicate-key error to 409.
+3. **Ties.** `$rank` ranks on total late minutes alone. Every employee tied at or above the cutoff rank is returned; the final sort by minutes and then code makes ties deterministic.
+4. **Headcount.** The summary starts from employees joined by month-end, then looks up logs. Employees without matches remain in the aggregation and contribute to headcount.
+5. **100x scale.** I would measure the expensive lookup pipelines and move recurring analytics to pre-aggregated daily summaries with an explicit freshness strategy.
