@@ -7,6 +7,12 @@ A REST API built with FastAPI and MongoDB for employee attendance tracking, manu
 * Python 3.11+
 * MongoDB 6.0+ (MongoDB Atlas or a local MongoDB instance)
 
+## API documentation
+
+The interactive API documentation is available at `/docs` when the application is running.
+
+![API documentation showing the attendance and analytics endpoints](api-docs.png)
+
 ## Setup
 
 1. Clone this repository and open the project directory.
