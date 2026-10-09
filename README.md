@@ -13,6 +13,12 @@ The interactive API documentation is available at `/docs` when the application i
 
 ![API documentation showing the attendance and analytics endpoints](api-docs.png)
 
+The interactive docs expose request parameters and response schemas for each operation:
+
+![Health and employee API documentation](api-docs-health-employees.png)
+
+![API response examples and validation error schema](api-docs-responses.png)
+
 ## Setup
 
 1. Clone this repository and open the project directory.
